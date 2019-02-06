@@ -1,110 +1,226 @@
-//
-//  GameScene.swift
-//  TicTacToe
-//
-//  Created by Jully Nobre on 05/02/19.
-//  Copyright © 2019 Jully Nobre. All rights reserved.
-//
+/**
+ * Copyright (c) 2016 Razeware LLC
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 
 import SpriteKit
 import GameplayKit
 
 class GameScene: SKScene {
+  
+  // MARK: - Properties
+  
+  var boardNode: SKSpriteNode!
+  var informationLabel: SKLabelNode!
+  var gamePieceNodes = [SKNode]()
+  
+  var board = Board()
+  
+  // MARK: - Scene Loading
+  
+  override func didMove(to view: SKView) {
+    super.didMove(to: view)
     
-    var entities = [GKEntity]()
-    var graphs = [String : GKGraph]()
+    anchorPoint = CGPoint(x: 0.5, y: 0.5)
     
-    private var lastUpdateTime : TimeInterval = 0
-    private var label : SKLabelNode?
-    private var spinnyNode : SKShapeNode?
+    let backgroundNode = SKSpriteNode(imageNamed: "wood-bg")
+    addChild(backgroundNode)
     
-    override func sceneDidLoad() {
-
-        self.lastUpdateTime = 0
-        
-        // Get label node from scene and store it for use later
-        self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
-        if let label = self.label {
-            label.alpha = 0.0
-            label.run(SKAction.fadeIn(withDuration: 2.0))
+    let boardWidth = view.frame.width - 24
+    let borderHeight = ((view.frame.height - boardWidth) / 2) - 24
+    
+    boardNode = SKSpriteNode(
+      texture: SKTexture(imageNamed: "board"),
+      size: CGSize(width: boardWidth, height: boardWidth)
+    )
+    boardNode.position.y = -(view.frame.height / 2) + ((view.frame.height - borderHeight) / 2)
+    addChild(boardNode)
+    
+    let headerNode = SKSpriteNode(
+      color: UIColor(red: 46/255, green: 46/255, blue: 46/255, alpha: 1),
+      size: CGSize(width: view.frame.width, height: borderHeight)
+    )
+    headerNode.alpha = 0.65
+    headerNode.position.y = (view.frame.height / 2) - (borderHeight / 2)
+    addChild(headerNode)
+    
+    informationLabel = SKLabelNode(fontNamed: "HandDrawnShapes")
+    informationLabel.fontSize = UIDevice.current.userInterfaceIdiom == .pad ? 63 : 40
+    informationLabel.fontColor = .white
+    informationLabel.position = headerNode.position
+    informationLabel.verticalAlignmentMode = .center
+    addChild(informationLabel)
+    
+    resetGame()
+    updateGame()
+  }
+  
+  // MARK: - Game Logic
+  
+  fileprivate func resetGame() {
+    let actions = [
+      SKAction.scale(to: 0, duration: 0.25),
+      SKAction.customAction(withDuration: 0.5, actionBlock: { node, duration in
+        node.removeFromParent()
+      })
+    ]
+    gamePieceNodes.forEach { node in
+      node.run(SKAction.sequence(actions))
+    }
+    gamePieceNodes.removeAll()
+    
+    board = Board()
+  }
+  
+  fileprivate func updateGame() {
+    var gameOverTitle: String? = nil
+    
+    if let winner = board.winningPlayer, winner == board.currentPlayer {
+      gameOverTitle = "\(winner.name) Wins!"
+    } else if board.isFull {
+      gameOverTitle = "Draw"
+    }
+    
+    if gameOverTitle != nil {
+      let alert = UIAlertController(title: gameOverTitle, message: nil, preferredStyle: .alert)
+      let alertAction = UIAlertAction(title: "Play Again", style: .default) { _ in
+        self.resetGame()
+        self.updateGame()
+      }
+      
+      alert.addAction(alertAction)
+      view?.window?.rootViewController?.present(alert, animated: true)
+      
+      return
+    }
+    
+    board.currentPlayer = board.currentPlayer.opponent
+    informationLabel.text = "\(board.currentPlayer.name)'s Turn"
+  }
+  
+  fileprivate func updateBoard(with x: Int, y: Int) {
+    guard board[x, y] == .empty else { return }
+    
+    board[x, y] = board.currentPlayer.value
+    let sizeValue = boardNode.size.width / 3 - 20
+    let spriteSize = CGSize(
+      width: sizeValue,
+      height: sizeValue
+    )
+    
+    var nodeImageName: String
+    
+    if board.currentPlayer.value == .zombie {
+      nodeImageName = "zombie-head"
+    } else {
+      nodeImageName = "brain"
+    }
+    
+    let pieceNode = SKSpriteNode(imageNamed: nodeImageName)
+    pieceNode.size = CGSize(
+      width: spriteSize.width / 2,
+      height: spriteSize.height / 2
+    )
+    pieceNode.position = position(for: CGPoint(x: x, y: y))
+    addChild(pieceNode)
+    
+    gamePieceNodes.append(pieceNode)
+    
+    pieceNode.run(SKAction.scale(by: 2, duration: 0.25))
+    
+    updateGame()
+  }
+  
+  fileprivate func position(for boardCoordinate: CGPoint) -> CGPoint {
+    let boardWidth = boardNode.size.width
+    let halfThirdOfBoard = (boardWidth / 3) / 2
+    
+    var xPosition: CGFloat = 0
+    var yPosition: CGFloat = 0
+    
+    if boardCoordinate.x == 0 {
+      xPosition = -((boardWidth / 2) - halfThirdOfBoard)
+    } else if boardCoordinate.x == 1 {
+      xPosition = 0
+    } else if boardCoordinate.x == 2 {
+      xPosition = (boardWidth / 2) - halfThirdOfBoard
+    }
+    
+    if boardCoordinate.y == 0 {
+      yPosition = (boardWidth / 2) - halfThirdOfBoard
+    } else if boardCoordinate.y == 1 {
+      yPosition = 0
+    } else if boardCoordinate.y == 2 {
+      yPosition = -((boardWidth / 2) - halfThirdOfBoard)
+    }
+    
+    return CGPoint(x: xPosition, y: yPosition + boardNode.position.y)
+  }
+  
+  // MARK: - Touches
+  
+  fileprivate func processTouchOnBoard(touch: UITouch) {
+    let locationInBoard = touch.location(in: boardNode)
+    let halfThirdOfBoard = (boardNode.size.width / 3) / 2
+    
+    var boardCoordinate: CGPoint = .zero
+    
+    if locationInBoard.x > halfThirdOfBoard {
+      boardCoordinate.x = 2
+    } else if locationInBoard.x < -halfThirdOfBoard {
+      boardCoordinate.x = 0
+    } else {
+      boardCoordinate.x = 1
+    }
+    
+    if locationInBoard.y > halfThirdOfBoard {
+      boardCoordinate.y = 0
+    } else if locationInBoard.y < -halfThirdOfBoard {
+      boardCoordinate.y = 2
+    } else {
+      boardCoordinate.y = 1
+    }
+    
+    updateBoard(with: Int(boardCoordinate.x), y: Int(boardCoordinate.y))
+  }
+    
+  fileprivate func handleTouchEnd(_ touches: Set<UITouch>, with event: UIEvent?) {
+    for touch in touches {
+      for node in nodes(at: touch.location(in: self)) {
+        if node == boardNode {
+          processTouchOnBoard(touch: touch)
         }
-        
-        // Create shape node to use during mouse interaction
-        let w = (self.size.width + self.size.height) * 0.05
-        self.spinnyNode = SKShapeNode.init(rectOf: CGSize.init(width: w, height: w), cornerRadius: w * 0.3)
-        
-        if let spinnyNode = self.spinnyNode {
-            spinnyNode.lineWidth = 2.5
-            
-            spinnyNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 1)))
-            spinnyNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),
-                                              SKAction.fadeOut(withDuration: 0.5),
-                                              SKAction.removeFromParent()]))
-        }
+      }
     }
+  }
+  
+  override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+    super.touchesEnded(touches, with: event)
     
+    handleTouchEnd(touches, with: event)
+  }
+  
+  override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+    super.touchesCancelled(touches, with: event)
     
-    func touchDown(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.green
-            self.addChild(n)
-        }
-    }
-    
-    func touchMoved(toPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.blue
-            self.addChild(n)
-        }
-    }
-    
-    func touchUp(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.red
-            self.addChild(n)
-        }
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let label = self.label {
-            label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
-        }
-        
-        for t in touches { self.touchDown(atPoint: t.location(in: self)) }
-    }
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
-    }
-    
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
-    }
-    
-    
-    override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
-        
-        // Initialize _lastUpdateTime if it has not already been
-        if (self.lastUpdateTime == 0) {
-            self.lastUpdateTime = currentTime
-        }
-        
-        // Calculate time since last update
-        let dt = currentTime - self.lastUpdateTime
-        
-        // Update entities
-        for entity in self.entities {
-            entity.update(deltaTime: dt)
-        }
-        
-        self.lastUpdateTime = currentTime
-    }
+    handleTouchEnd(touches, with: event)
+  }
+  
 }

@@ -20,32 +20,19 @@
  * THE SOFTWARE.
  */
 
-import UIKit
-import SpriteKit
+import GameplayKit
 
-class GameViewController: UIViewController {
-  
-  override func viewDidLoad() {
-    super.viewDidLoad()
+class Move: NSObject, GKGameModelUpdate {
     
-    if let view = self.view as? SKView {
-      let scene = GameScene(size: UIScreen.main.bounds.size)
-      scene.scaleMode = .aspectFill
-      
-      view.presentScene(scene)
+    enum Score: Int {
+        case none
+        case win
     }
-  }
-  
-  override var shouldAutorotate: Bool {
-    return true
-  }
-  
-  override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-    return .portrait
-  }
-  
-  override var prefersStatusBarHidden: Bool {
-    return true
-  }
-  
+    
+    var value: Int = 0
+    var coordinate: CGPoint
+    
+    init(_ coordinate: CGPoint) {
+        self.coordinate = coordinate
+    }
 }

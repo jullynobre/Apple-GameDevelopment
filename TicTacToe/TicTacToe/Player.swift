@@ -20,32 +20,51 @@
  * THE SOFTWARE.
  */
 
-import UIKit
-import SpriteKit
+import GameplayKit
 
-class GameViewController: UIViewController {
-  
-  override func viewDidLoad() {
-    super.viewDidLoad()
+class Player: NSObject, GKGameModelPlayer {
     
-    if let view = self.view as? SKView {
-      let scene = GameScene(size: UIScreen.main.bounds.size)
-      scene.scaleMode = .aspectFill
-      
-      view.presentScene(scene)
+    enum Value: Int {
+    case empty
+    case brain
+    case zombie
+
+    var name: String {
+        switch self {
+            case .empty:
+            return ""
+
+            case .brain:
+            return "Brain"
+
+            case .zombie:
+            return "Zombie"
+        }
     }
-  }
-  
-  override var shouldAutorotate: Bool {
-    return true
-  }
-  
-  override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-    return .portrait
-  }
-  
-  override var prefersStatusBarHidden: Bool {
-    return true
-  }
-  
+    }
+    
+    var playerId: Int
+    var value: Value
+    var name: String
+
+    static var allPlayers = [
+        Player(.brain),
+        Player(.zombie)
+    ]
+
+    var opponent: Player {
+        if value == .zombie {
+          return Player.allPlayers[0]
+        } else {
+          return Player.allPlayers[1]
+        }
+    }
+
+    init(_ value: Value) {
+        self.value = value
+        name = value.name
+        
+        playerId = value.rawValue
+    }
+
 }
