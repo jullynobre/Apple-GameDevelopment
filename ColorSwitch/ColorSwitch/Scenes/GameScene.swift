@@ -68,6 +68,20 @@ class GameScene: SKScene {
         
         addChild(ball)
     }
+    
+    func turnWheel() {
+        if let newState = SwitchState(rawValue: switchState.rawValue + 1) {
+            switchState = newState
+        } else {
+            switchState = .red
+        }
+        
+        colorSwitch.run(SKAction.rotate(byAngle: .pi/2, duration: 0.25))
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        turnWheel()
+    }
 }
 
 
