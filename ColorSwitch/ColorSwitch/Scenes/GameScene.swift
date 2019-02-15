@@ -27,13 +27,16 @@ class GameScene: SKScene {
     var switchState = SwitchState.red // 0
     var currentColorIndex: Int?
     
+    let scoreLabel = SKLabelNode(text: "0")
+    var score = 0
+    
     override func didMove(to view: SKView) {
         setupPhysics()
         layoutScene()
     }
     
     func setupPhysics() {
-        physicsWorld.gravity = CGVector(dx: 0.0, dy: -2.0)
+        physicsWorld.gravity = CGVector(dx: 0.0, dy: -1.0)
         physicsWorld.contactDelegate = self
     }
     
@@ -46,10 +49,19 @@ class GameScene: SKScene {
         colorSwitch.physicsBody = SKPhysicsBody(circleOfRadius: colorSwitch.size.width/2)
         colorSwitch.physicsBody?.categoryBitMask = PhysicsCategories.switchCategory
         colorSwitch.physicsBody?.isDynamic = false
-        
         addChild(colorSwitch)
         
+        scoreLabel.fontName = "AvenirNext-Bold"
+        scoreLabel.fontSize = 60.0
+        scoreLabel.fontColor = UIColor.white
+        scoreLabel.position = CGPoint(x: frame.midX, y: frame.midY)
+        addChild(scoreLabel)
+        
         spawnBall()
+    }
+    
+    func updateScoreLabel() {
+        scoreLabel.text = "\(score)"
     }
     
     func spawnBall() {
@@ -100,11 +112,15 @@ extension GameScene: SKPhysicsContactDelegate {
             if let ball = contact.bodyA.node?.name == "Ball" ?
                 contact.bodyA.node as? SKSpriteNode :
                 contact.bodyB.node as? SKSpriteNode {
+                
                 if currentColorIndex == switchState.rawValue {
+                    score += 1
+                    updateScoreLabel()
                     ball.run(SKAction.fadeOut(withDuration: 0.25), completion: {
                         ball.removeFromParent()
                         self.spawnBall()
                     })
+                    
                 } else {
                     gameOver()
                 }
