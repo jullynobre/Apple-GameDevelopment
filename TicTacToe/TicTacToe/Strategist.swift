@@ -22,6 +22,4 @@
 
 import GameplayKit
 
-struct Strategist {
-  
-}
+struct Strategist {}

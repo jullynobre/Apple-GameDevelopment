@@ -23,48 +23,46 @@
 import GameplayKit
 
 class Player: NSObject, GKGameModelPlayer {
-    
     enum Value: Int {
-    case empty
-    case brain
-    case zombie
+        case empty
+        case brain
+        case zombie
 
-    var name: String {
-        switch self {
+        var name: String {
+            switch self {
             case .empty:
-            return ""
+                return ""
 
             case .brain:
-            return "Brain"
+                return "Brain"
 
             case .zombie:
-            return "Zombie"
+                return "Zombie"
+            }
         }
     }
-    }
-    
+
     var playerId: Int
     var value: Value
     var name: String
 
     static var allPlayers = [
         Player(.brain),
-        Player(.zombie)
+        Player(.zombie),
     ]
 
     var opponent: Player {
         if value == .zombie {
-          return Player.allPlayers[0]
+            return Player.allPlayers[0]
         } else {
-          return Player.allPlayers[1]
+            return Player.allPlayers[1]
         }
     }
 
     init(_ value: Value) {
         self.value = value
         name = value.name
-        
+
         playerId = value.rawValue
     }
-
 }
