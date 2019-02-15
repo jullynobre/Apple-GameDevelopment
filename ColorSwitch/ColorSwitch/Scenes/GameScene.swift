@@ -79,6 +79,10 @@ class GameScene: SKScene {
         colorSwitch.run(SKAction.rotate(byAngle: .pi/2, duration: 0.25))
     }
     
+    func gameOver() {
+        print("Game Over!")
+    }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         turnWheel()
     }
@@ -92,7 +96,20 @@ extension GameScene: SKPhysicsContactDelegate {
         
         if contactMask == PhysicsCategories.ballCategory |
             PhysicsCategories.switchCategory {
-            print("Kontakt!!")
+            
+            if let ball = contact.bodyA.node?.name == "Ball" ?
+                contact.bodyA.node as? SKSpriteNode :
+                contact.bodyB.node as? SKSpriteNode {
+                if currentColorIndex == switchState.rawValue {
+                    ball.run(SKAction.fadeOut(withDuration: 0.25), completion: {
+                        ball.removeFromParent()
+                        self.spawnBall()
+                    })
+                } else {
+                    gameOver()
+                }
+            }
+            
         }
     }
     
