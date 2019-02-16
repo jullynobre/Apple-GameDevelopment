@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5770336E22187F5700CB8838 /* MyParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = 5770336C22187F5700CB8838 /* MyParticle.sks */; };
+		5770336F22187F5700CB8838 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5770336D22187F5700CB8838 /* Assets.xcassets */; };
 		57914AC82216E14000C7BF68 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57914AC72216E14000C7BF68 /* AppDelegate.swift */; };
 		57914ACE2216E14000C7BF68 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57914ACD2216E14000C7BF68 /* GameScene.swift */; };
 		57914AD02216E14000C7BF68 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57914ACF2216E14000C7BF68 /* GameViewController.swift */; };
@@ -15,9 +17,12 @@
 		57914AD82216E14200C7BF68 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 57914AD62216E14200C7BF68 /* LaunchScreen.storyboard */; };
 		57914AE42216F11800C7BF68 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57914AE32216F11800C7BF68 /* Settings.swift */; };
 		57914AE6221704E100C7BF68 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57914AE5221704E100C7BF68 /* MenuScene.swift */; };
+		57914AE82217750E00C7BF68 /* bling.wav in Resources */ = {isa = PBXBuildFile; fileRef = 57914AE72217750D00C7BF68 /* bling.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5770336C22187F5700CB8838 /* MyParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyParticle.sks; sourceTree = "<group>"; };
+		5770336D22187F5700CB8838 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		57914AC42216E14000C7BF68 /* ColorSwitch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ColorSwitch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57914AC72216E14000C7BF68 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		57914ACD2216E14000C7BF68 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -28,6 +33,7 @@
 		57914AD92216E14200C7BF68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		57914AE32216F11800C7BF68 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		57914AE5221704E100C7BF68 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
+		57914AE72217750D00C7BF68 /* bling.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = bling.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +50,8 @@
 		57914ABB2216E14000C7BF68 = {
 			isa = PBXGroup;
 			children = (
+				5770336C22187F5700CB8838 /* MyParticle.sks */,
+				5770336D22187F5700CB8838 /* Assets.xcassets */,
 				57914AC62216E14000C7BF68 /* ColorSwitch */,
 				57914AC52216E14000C7BF68 /* Products */,
 			);
@@ -60,6 +68,7 @@
 		57914AC62216E14000C7BF68 /* ColorSwitch */ = {
 			isa = PBXGroup;
 			children = (
+				57914AE72217750D00C7BF68 /* bling.wav */,
 				57914AD92216E14200C7BF68 /* Info.plist */,
 				57914AE22216E48100C7BF68 /* Assets */,
 				57914AE12216E47900C7BF68 /* Template */,
@@ -164,8 +173,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				57914AD32216E14000C7BF68 /* Main.storyboard in Resources */,
+				57914AE82217750E00C7BF68 /* bling.wav in Resources */,
 				57914AD52216E14200C7BF68 /* Assets.xcassets in Resources */,
 				57914AD82216E14200C7BF68 /* LaunchScreen.storyboard in Resources */,
+				5770336F22187F5700CB8838 /* Assets.xcassets in Resources */,
+				5770336E22187F5700CB8838 /* MyParticle.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

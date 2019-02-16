@@ -94,7 +94,7 @@ class GameScene: SKScene {
         colorSwitch.run(SKAction.rotate(byAngle: .pi/2, duration: 0.25))
     }
     
-    func gameOver() {
+    func gameOver() { //Update score and redirect to menu Scene
         UserDefaults.standard.set(score, forKey: "RecentScore")
         if score > UserDefaults.standard.integer(forKey: "Highscore") {
             UserDefaults.standard.set(score, forKey: "Highscore")
@@ -102,6 +102,16 @@ class GameScene: SKScene {
         
         let menuScene = MenuScene.init(size: view!.bounds.size)
         view?.presentScene(menuScene)
+    }
+    
+    func runGameOverEffect() {
+        let emitterNode = SKEmitterNode(fileNamed: "MyParticle")
+        emitterNode?.position = colorSwitch.position
+        
+        colorSwitch.removeFromParent()
+        
+        addChild(emitterNode!)
+        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -123,6 +133,7 @@ extension GameScene: SKPhysicsContactDelegate {
                 contact.bodyB.node as? SKSpriteNode {
                 
                 if currentColorIndex == switchState.rawValue {
+                    run(SKAction.playSoundFileNamed("bling", waitForCompletion: false))
                     score += 1
                     updateScoreLabel()
                     ball.run(SKAction.fadeOut(withDuration: 0.25), completion: {
@@ -131,7 +142,12 @@ extension GameScene: SKPhysicsContactDelegate {
                     })
                     
                 } else {
-                    gameOver()
+                    ball.removeFromParent()
+                    runGameOverEffect()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(4), execute: {
+                        
+                        self.gameOver()
+                    })
                 }
             }
             
