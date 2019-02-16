@@ -108,7 +108,7 @@ class GameScene: SKScene {
         let emitterNode = SKEmitterNode(fileNamed: "MyParticle")
         emitterNode?.position = colorSwitch.position
         
-        colorSwitch.removeFromParent()
+        colorSwitch!.removeFromParent()
         
         addChild(emitterNode!)
         
@@ -144,7 +144,7 @@ extension GameScene: SKPhysicsContactDelegate {
                 } else {
                     ball.removeFromParent()
                     runGameOverEffect()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(4), execute: {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: {
                         
                         self.gameOver()
                     })
