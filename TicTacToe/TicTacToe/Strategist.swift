@@ -19,7 +19,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 import GameplayKit
 
-struct Strategist {}
+struct Strategist {
+	
+	// 1
+	private let strategist: GKMinmaxStrategist = {
+		let strategist = GKMinmaxStrategist()
+		
+		strategist.maxLookAheadDepth = 5
+		strategist.randomSource = GKARC4RandomSource()
+		
+		return strategist
+	}()
+	
+	// 2
+	var board: Board {
+		didSet {
+			strategist.gameModel = board
+		}
+	}
+	
+	// 3
+	var bestCoordinate: CGPoint? {
+		if let move = strategist.bestMove(for: board.currentPlayer) as? Move {
+			return move.coordinate
+		}
+		
+		return nil
+	}
+	
+}
