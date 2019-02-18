@@ -24,7 +24,7 @@ import GameplayKit
 
 class Move: NSObject, GKGameModelUpdate {
     enum Score: Int {
-        case none
+		case none
         case win
     }
 
@@ -35,3 +35,4 @@ class Move: NSObject, GKGameModelUpdate {
         self.coordinate = coordinate
     }
 }
+	
