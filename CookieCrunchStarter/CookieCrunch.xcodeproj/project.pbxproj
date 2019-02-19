@@ -30,6 +30,7 @@
 		17A7E5B01FB53C850044C48F /* Error.wav in Resources */ = {isa = PBXBuildFile; fileRef = 17A7E5AA1FB53C850044C48F /* Error.wav */; };
 		186E13E12069D3DF003EBCA0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 186E13E02069D3DE003EBCA0 /* LaunchScreen.storyboard */; };
 		57E6BFEB221C408300F33DED /* Cookie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E6BFEA221C408300F33DED /* Cookie.swift */; };
+		57E6BFED221C452C00F33DED /* Level.swif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E6BFEC221C452C00F33DED /* Level.swif.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +59,7 @@
 		17A7E5AA1FB53C850044C48F /* Error.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Error.wav; sourceTree = "<group>"; };
 		186E13E02069D3DE003EBCA0 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		57E6BFEA221C408300F33DED /* Cookie.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = Cookie.swift; sourceTree = "<group>"; tabWidth = 4; };
+		57E6BFEC221C452C00F33DED /* Level.swif.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = Level.swif.swift; sourceTree = "<group>"; tabWidth = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 				170D54271FB6919C00BB205A /* Grid.atlas */,
 				17A7E5891FB516370044C48F /* Sprites.atlas */,
 				57E6BFEA221C408300F33DED /* Cookie.swift */,
+				57E6BFEC221C452C00F33DED /* Level.swif.swift */,
 			);
 			path = CookieCrunch;
 			sourceTree = "<group>";
@@ -223,6 +226,7 @@
 			files = (
 				17A7E5781FB513CC0044C48F /* GameScene.swift in Sources */,
 				1769DFFB1FE383BA00F99A23 /* Array2D.swift in Sources */,
+				57E6BFED221C452C00F33DED /* Level.swif.swift in Sources */,
 				17A7E59D1FB528160044C48F /* Tile.swift in Sources */,
 				1769DFF91FE3818B00F99A23 /* LevelData.swift in Sources */,
 				17A7E57A1FB513CC0044C48F /* GameViewController.swift in Sources */,

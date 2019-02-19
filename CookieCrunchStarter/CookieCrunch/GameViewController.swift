@@ -43,6 +43,7 @@ class GameViewController: UIViewController {
 	
 	var movesLeft = 0
 	var score = 0
+	var level: Level!
 	
 	lazy var backgroundMusic: AVAudioPlayer? = {
 		guard let url = Bundle.main.url(forResource: "Mining by Moonlight", withExtension: "mp3") else {
@@ -67,6 +68,8 @@ class GameViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
+		
+		
 		// Configure the view
 		let skView = view as! SKView
 		skView.isMultipleTouchEnabled = false
@@ -75,8 +78,22 @@ class GameViewController: UIViewController {
 		scene = GameScene(size: skView.bounds.size)
 		scene.scaleMode = .aspectFill
 		
+		level = Level()
+		scene.level = level
+		
 		// Present the scene.
 		skView.presentScene(scene)
+		
+		beginGame()
+	}
+	
+	func beginGame() {
+		shuffle()
+	}
+	
+	func shuffle() {
+		let newCookies = level.shuffle()
+		scene.addSprites(for: newCookies)
 	}
 	
 	// MARK: IBActions
