@@ -83,6 +83,7 @@ class GameViewController: UIViewController {
 		
 		// Present the scene.
 		skView.presentScene(scene)
+		scene.addTiles()
 		
 		beginGame()
 	}
