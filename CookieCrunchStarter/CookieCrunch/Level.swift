@@ -34,6 +34,21 @@ let numRows = 9
 class Level {
 	private var cookies = Array2D<Cookie>(columns: numColumns, rows: numRows)
 	
+	init(filename: String) {
+		guard let levelData = LevelData.loadFrom(file: filename) else { return }
+		
+		let tilesArray = levelData.tiles
+		
+		for (row, rowArray) in tilesArray.enumerated() {
+			let tileRow = numRows - row - 1
+			for (column, value) in rowArray.enumerated() {
+				if value == 1 {
+					tiles[column, tileRow] = Tile()
+				}
+			}
+		}
+	}
+	
 	func cookie(atColumn column: Int, row: Int) -> Cookie? {
 		precondition(column >= 0 && column < numColumns)
 		precondition(row >= 0 && row < numRows)
@@ -47,21 +62,28 @@ class Level {
 	private func createInitialCookies() -> Set<Cookie> {
 		var set: Set<Cookie> = []
 		
-		// 1
 		for row in 0..<numRows {
 			for column in 0..<numColumns {
-				
-				// 2
-				let cookieType = CookieType.random()
-				
-				// 3
-				let cookie = Cookie(column: column, row: row, cookieType: cookieType)
-				cookies[column, row] = cookie
-				
-				// 4
-				set.insert(cookie)
+				if tiles[column, row] != nil {
+					
+					let cookieType = CookieType.random()
+					let cookie = Cookie(column: column, row: row, cookieType: cookieType)
+					cookies[column, row] = cookie
+					
+					set.insert(cookie)
+				}
 			}
 		}
 		return set
 	}
+	
+	private var tiles = Array2D<Tile>(columns: numColumns, rows: numRows)
+	
+	func tileAt(column: Int, row: Int) -> Tile? {
+		precondition(column >= 0 && column < numColumns)
+		precondition(row >= 0 && row < numRows)
+		return tiles[column, row]
+	}
+	
+
 }
