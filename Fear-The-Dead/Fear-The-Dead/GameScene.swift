@@ -46,7 +46,10 @@ class GameScene: SKScene {
   override func didMove(to view: SKView) {
     // Set up physics world's contact delegate
     physicsWorld.contactDelegate = self
-
+	
+	// Set up player
+	player = childNode(withName: "player") as? SKSpriteNode
+	
     // Set up initial camera position
     updateCamera()
   }
