@@ -50,6 +50,18 @@ class GameScene: SKScene {
 	// Set up player
 	player = childNode(withName: "player") as? SKSpriteNode
 	
+	// Set up zombies
+	for child in self.children {
+		if child.name == "zombie" {
+			if let child = child as? SKSpriteNode {
+				zombies.append(child)
+			}
+		}
+	}
+	
+	// Set up goal
+	goal = childNode(withName: "goal") as? SKSpriteNode
+	
     // Set up initial camera position
     updateCamera()
   }
