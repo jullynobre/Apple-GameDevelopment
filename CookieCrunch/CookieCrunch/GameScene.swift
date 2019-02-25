@@ -53,6 +53,9 @@ class GameScene: SKScene {
 	let cropLayer = SKCropNode()
 	let maskLayer = SKNode()
 	
+	private var swipeFromColumn: Int?
+	private var swipeFromRow: Int?
+	
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder) is not used in this app")
 	}
@@ -138,6 +141,15 @@ class GameScene: SKScene {
 		}
 	}
 	
+	private func convertPoint(_ point: CGPoint) -> (success: Bool, column: Int, row: Int) {
+		if point.x >= 0 && point.x < CGFloat(numColumns) * tileWidth &&
+			point.y >= 0 && point.y < CGFloat(numRows) * tileHeight {
+			return (true, Int(point.x / tileWidth), Int(point.y / tileHeight))
+		} else {
+			return (false, 0, 0)  // invalid location
+		}
+	}
+	
 	private func pointFor(column: Int, row: Int) -> CGPoint {
 		return CGPoint(
 			x: CGFloat(column) * tileWidth + tileWidth / 2,
@@ -145,5 +157,3 @@ class GameScene: SKScene {
 	}
 	
 }
-
-
