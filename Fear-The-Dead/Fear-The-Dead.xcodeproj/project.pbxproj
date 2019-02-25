@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		57468E8B22242DF800FD4D0A /* Wall.sks in Resources */ = {isa = PBXBuildFile; fileRef = 57468E8A22242DF800FD4D0A /* Wall.sks */; };
 		822D880B1EA0599F00A54A34 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822D880A1EA0599F00A54A34 /* AppDelegate.swift */; };
 		822D880D1EA0599F00A54A34 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 822D880C1EA0599F00A54A34 /* GameScene.sks */; };
 		822D88111EA0599F00A54A34 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 822D88101EA0599F00A54A34 /* GameScene.swift */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		57468E8A22242DF800FD4D0A /* Wall.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Wall.sks; sourceTree = "<group>"; };
 		822D88071EA0599F00A54A34 /* Fear-The-Dead.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Fear-The-Dead.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		822D880A1EA0599F00A54A34 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		822D880C1EA0599F00A54A34 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				822D880C1EA0599F00A54A34 /* GameScene.sks */,
+				57468E8A22242DF800FD4D0A /* Wall.sks */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -177,6 +180,7 @@
 				82EA0D071EA0683200E8D690 /* LaunchScreen.xib in Resources */,
 				822D88471EA0660100A54A34 /* fear_moan.wav in Resources */,
 				822D88491EA0660100A54A34 /* fear_win.mp3 in Resources */,
+				57468E8B22242DF800FD4D0A /* Wall.sks in Resources */,
 				822D88461EA0660100A54A34 /* fear_lose.mp3 in Resources */,
 				82EA0D091EA06A7800E8D690 /* Assets.xcassets in Resources */,
 				822D88451EA0660100A54A34 /* fear_bg.mp3 in Resources */,
